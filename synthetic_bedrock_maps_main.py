@@ -42,6 +42,8 @@ scl = 2            # tor length [pixels]
 sflag = 5           # 1: 'con', 2: 'ind', 3: 'ran', 4: 'sys', 5: 'sys + ran' 
 fmap = 0.5          # draw map at bedrock fraction = fmap
 con = 0             # uniform SOIL fraction [only used for sflag: {1}]
+# Constant SOIL fraction or Constant BEDROCK fraction??
+
 off = 3             # offset [pixels] [only used for sflag: {4,5}]
 rand = 0.05         # random error rate [only used for sflag: {3,5}]
 
@@ -60,11 +62,14 @@ e2a = np.zeros(len(f))                          # Edge to Area Ratio
 
 ## MAIN SCRIPT ##
 for i in range(len(f)):
+    # generate a 'truth' grid for each soil fraction
     [zt, ft[i]] = gf.generate_grid(leng=l, frac=f[i], seed_no=1, scale=scl) 
     
     ## TRUTH-MODEL SCENARIOS ##
     ## CONSTANT FRACTION - Truth varies but model does not ##
     if sflag==1:
+        # couldn't we just do this once and copy it for each f[i]?  None of the args are changing...
+
         [zm, fm[i]] = gf.generate_grid(leng=l, frac=con, seed_no=2, scale=scl)
     
     ## FRACTION MATCH - Tor location independent of truth ##
